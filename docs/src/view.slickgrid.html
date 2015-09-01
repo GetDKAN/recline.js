@@ -411,7 +411,12 @@ user enter a correct value </p>
     }
 
     <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sanitizeFieldName</span><span class="hljs-params">(name)</span> </span>{
-      <span class="hljs-keyword">var</span> sanitized = $(name).text();
+      <span class="hljs-keyword">var</span> sanitized;
+      <span class="hljs-keyword">try</span>{
+        sanitized = $(name).text();
+      } <span class="hljs-keyword">catch</span>(e){
+        sanitized = <span class="hljs-string">''</span>;
+      }
       <span class="hljs-keyword">return</span> (name !== sanitized &amp;&amp; sanitized !== <span class="hljs-string">''</span>) ? sanitized : name;
     }
 
