@@ -68,8 +68,8 @@ my.Map = Backbone.View.extend({
       options.state
     );
     this.state = new recline.Model.ObjectState(stateData);
-
-    this._clusterOptions = {
+    this.excludeFields = options.excludeFields || [];
+   this._clusterOptions = {
       zoomToBoundsOnClick: true,
       //disableClusteringAtZoom: 10,
       maxClusterRadius: 80,
@@ -124,9 +124,12 @@ my.Map = Backbone.View.extend({
   //     }
   infobox: function(record) {
     var html = '';
+    var self = this;
     for (var key in record.attributes){
       if (!(this.state.get('geomField') && key == this.state.get('geomField'))){
-        html += '<div><strong>' + key + '</strong>: '+ record.attributes[key] + '</div>';
+        if (!_.contains(self.excludeFields, key)) {
+          html += '<div><strong>' + key + '</strong>: '+ record.attributes[key] + '</div>';
+        }
       }
     }
     return html;
