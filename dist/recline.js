@@ -1956,11 +1956,9 @@ my.Map = Backbone.View.extend({
     var html = '';
     var self = this;
     for (var key in record.attributes){
-      if (!(this.state.get('geomField') && key == this.state.get('geomField'))){
         if (!_.contains(self.excludeFields, key)) {
           html += '<div><strong>' + key + '</strong>: '+ record.attributes[key] + '</div>';
         }
-      }
     }
     return html;
   },
