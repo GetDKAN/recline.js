@@ -411,8 +411,16 @@ user enter a correct value </p>
     }
 
     <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sanitizeFieldName</span><span class="hljs-params">(name)</span> </span>{
-      <span class="hljs-keyword">var</span> sanitized = $(name).text();
-      <span class="hljs-keyword">return</span> (name !== sanitized &amp;&amp; sanitized !== <span class="hljs-string">''</span>) ? sanitized : name;
+      <span class="hljs-keyword">var</span> sanitized = <span class="hljs-string">''</span>;
+      <span class="hljs-keyword">var</span> texts = name.split(<span class="hljs-regexp">/&lt;.+?&gt;/</span>);
+      _.each(texts, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(t)</span> </span>{
+        <span class="hljs-keyword">var</span> trimmed = t.trim();
+        <span class="hljs-keyword">if</span> (trimmed) {
+          sanitized += t.trim() + <span class="hljs-string">' '</span>;
+        }
+      });
+      sanitized = sanitized.trim();
+      <span class="hljs-keyword">return</span> sanitized;
     }
 
     _.each(<span class="hljs-keyword">this</span>.model.fields.toJSON(),<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(field)</span></span>{

@@ -230,7 +230,7 @@ tells us to use memory store</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">this</span>._handleResult = (<span class="hljs-keyword">this</span>.backend != <span class="hljs-literal">null</span> &amp;&amp; _.has(<span class="hljs-keyword">this</span>.backend, <span class="hljs-string">'handleQueryResult'</span>)) ? 
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">this</span>._handleResult = (<span class="hljs-keyword">this</span>.backend != <span class="hljs-literal">null</span> &amp;&amp; _.has(<span class="hljs-keyword">this</span>.backend, <span class="hljs-string">'handleQueryResult'</span>)) ?
       <span class="hljs-keyword">this</span>.backend.handleQueryResult : <span class="hljs-keyword">this</span>._handleQueryResult;
     <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.backend == recline.Backend.Memory) {
       <span class="hljs-keyword">this</span>.fetch();
@@ -545,9 +545,11 @@ also returned.</p>
 
     <span class="hljs-keyword">this</span>._store.query(actualQuery, <span class="hljs-keyword">this</span>.toJSON())
       .done(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(queryResult)</span> </span>{
-        self._handleResult(queryResult);
-        self.trigger(<span class="hljs-string">'query:done'</span>);
-        dfd.resolve(self.records);
+        setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span></span>{
+          self._handleResult(queryResult);
+          self.trigger(<span class="hljs-string">'query:done'</span>);
+          dfd.resolve(self.records);
+        }, <span class="hljs-number">0</span>);
       })
       .fail(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(args)</span> </span>{
         self.trigger(<span class="hljs-string">'query:fail'</span>, args);
@@ -789,7 +791,7 @@ for this record.</p>
             <div class="content"><div class='highlight'><pre>  summary: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(record)</span> </span>{
     <span class="hljs-keyword">var</span> self = <span class="hljs-keyword">this</span>;
     <span class="hljs-keyword">var</span> html = <span class="hljs-string">'&lt;div class="recline-record-summary"&gt;'</span>;
-    <span class="hljs-keyword">this</span>.fields.each(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(field)</span> </span>{ 
+    <span class="hljs-keyword">this</span>.fields.each(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(field)</span> </span>{
       <span class="hljs-keyword">if</span> (field.id != <span class="hljs-string">'id'</span>) {
         html += <span class="hljs-string">'&lt;div class="'</span> + field.id + <span class="hljs-string">'"&gt;&lt;strong&gt;'</span> + field.get(<span class="hljs-string">'label'</span>) + <span class="hljs-string">'&lt;/strong&gt;: '</span> + self.getFieldValue(field) + <span class="hljs-string">'&lt;/div&gt;'</span>;
       }
@@ -944,7 +946,7 @@ WARNING: these will not persist <em>unless</em> you call save on Dataset</p>
       <span class="hljs-keyword">return</span> <span class="hljs-built_in">JSON</span>.stringify(val);
     },
     <span class="hljs-string">'number'</span>: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(val, field, doc)</span> </span>{
-      <span class="hljs-keyword">var</span> format = field.get(<span class="hljs-string">'format'</span>); 
+      <span class="hljs-keyword">var</span> format = field.get(<span class="hljs-string">'format'</span>);
       <span class="hljs-keyword">if</span> (format === <span class="hljs-string">'percentage'</span>) {
         <span class="hljs-keyword">return</span> val + <span class="hljs-string">'%'</span>;
       }
@@ -1140,7 +1142,7 @@ my.FieldList = Backbone.Collection.extend({
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-42">&#182;</a>
               </div>
-              <p>trigger just one event (change:filters:new-blank) instead of one for remove and 
+              <p>trigger just one event (change:filters:new-blank) instead of one for remove and
 one for add</p>
 
             </div>
