@@ -864,7 +864,7 @@ my.Query = Backbone.Model.extend({
   },
   defaults: function() {
     return {
-      size: 10000000,
+      size: 100,
       from: 0,
       q: '',
       facets: {},
